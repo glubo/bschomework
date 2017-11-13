@@ -3,6 +3,7 @@ package com.example.bsc.helper;
 import com.example.bsc.dto.PaymentDTO;
 import com.example.bsc.exception.MalformedPaymentException;
 
+import java.math.BigDecimal;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -10,7 +11,7 @@ import java.util.regex.Pattern;
  * this helper parses payment from string
  */
 public class PaymentHelper {
-	static Pattern paymentPattern = Pattern.compile("(?<currency>\\p{Upper}{3}+)\\s+(?<amount>-?\\d+)\\s*");
+	static Pattern paymentPattern = Pattern.compile("(?<currency>\\p{Upper}{3}+)\\s+(?<amount>-?\\d+(?:\\.\\d+)?)\\s*");
 
 	/**
 	 *
@@ -19,14 +20,14 @@ public class PaymentHelper {
 	 */
 	public static PaymentDTO parsePayment(String input) throws MalformedPaymentException {
 		String currency;
-		int amount;
+		BigDecimal amount;
 
 		Matcher paymentMatcher = paymentPattern.matcher(input);
 		if (!paymentMatcher.matches()) {
 			throw new MalformedPaymentException(String.format("Encountered malformed payment: \"%s\"", input));
 		}
 		currency = paymentMatcher.group("currency");
-		amount = Integer.parseInt(paymentMatcher.group("amount"));
+		amount = new BigDecimal(paymentMatcher.group("amount"));
 
 		return new PaymentDTO(currency, amount);
 	}

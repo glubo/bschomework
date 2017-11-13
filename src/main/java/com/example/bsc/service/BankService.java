@@ -55,11 +55,11 @@ public class BankService {
 	public synchronized void applyPayment(PaymentDTO payment) {
 		String currencyCode = payment.getCurrencyCode();
 		BalanceDTO oldBalance = balances.get(currencyCode);
-		if (oldBalance == null) {
-			oldBalance = new BalanceDTO(currencyCode, 0);
+		if (oldBalance == null || oldBalance.getBalance() == null) {
+			oldBalance = new BalanceDTO(currencyCode, BigDecimal.ZERO);
 		}
 
-		balances.put(currencyCode, new BalanceDTO(oldBalance.getCurrencyCode(), oldBalance.getBalance() + payment.getAmount()));
+		balances.put(currencyCode, new BalanceDTO(oldBalance.getCurrencyCode(), oldBalance.getBalance().add(payment.getAmount())));
 	}
 
 	/**

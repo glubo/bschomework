@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.ToString;
 
+import java.math.BigDecimal;
+
 @AllArgsConstructor
 @ToString
 @Getter
@@ -15,5 +17,5 @@ public class BalanceDTO {
 	/**
 	 * current balance of this currency
 	 */
-	int balance;
+	BigDecimal balance;
 }

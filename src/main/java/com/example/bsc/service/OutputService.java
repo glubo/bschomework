@@ -35,7 +35,7 @@ public class OutputService {
 			}
 
 			for (BalanceDTO balanceDTO : balances) {
-				if (balanceDTO == null || balanceDTO.getBalance() == 0) {
+				if (balanceDTO == null || balanceDTO.getBalance().compareTo(BigDecimal.ZERO) == 0) {
 					continue; // skip empty balances
 				}
 
@@ -51,7 +51,7 @@ public class OutputService {
 						) {
 					CurrencyDTO currencyDTO = bankService.getCurrency(currencyCode);
 					outputBuilder.append(" (USD ");
-					outputBuilder.append(currencyDTO.getRateToUSD().multiply(BigDecimal.valueOf(balanceDTO.getBalance())));
+					outputBuilder.append(currencyDTO.getRateToUSD().multiply(balanceDTO.getBalance()));
 					outputBuilder.append(")");
 				}
 

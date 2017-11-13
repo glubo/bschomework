@@ -15,40 +15,41 @@ public class BankServiceTest {
 	@Test
 	public void testApplyPayment() {
 		BankService bank = new BankService();
-		assertEquals(bank.retrieveBalances().size(),0);
+		assertEquals(0, bank.retrieveBalances().size());
 
-		bank.applyPayment(new PaymentDTO("USD", 100));
-		assertEquals(bank.retrieveBalances().size(),1);
+		bank.applyPayment(new PaymentDTO("USD", BigDecimal.valueOf(100)));
+		assertEquals(1, bank.retrieveBalances().size());
 
 		BalanceDTO balance = bank.retrieveBalances().get(0);
-		assertEquals(balance.getCurrencyCode(), "USD");
-		assertEquals(balance.getBalance(), 100);
+		assertEquals("USD", balance.getCurrencyCode());
+		assertEquals(0, balance.getBalance().compareTo(BigDecimal.valueOf(100)));
 
-		bank.applyPayment(new PaymentDTO("USD", 10));
-		assertEquals(bank.retrieveBalances().size(),1);
+		bank.applyPayment(new PaymentDTO("USD", BigDecimal.valueOf(10)));
+		assertEquals(1, bank.retrieveBalances().size());
 		balance = bank.retrieveBalances().get(0);
-		assertEquals(balance.getCurrencyCode(), "USD");
-		assertEquals(balance.getBalance(), 110);
+		assertEquals("USD", balance.getCurrencyCode());
+		assertEquals(0, balance.getBalance().compareTo(BigDecimal.valueOf(110)));
 
-		bank.applyPayment(new PaymentDTO("CZK", 1));
-		assertEquals(bank.retrieveBalances().size(),2);
+		bank.applyPayment(new PaymentDTO("CZK", BigDecimal.ONE));
+		bank.applyPayment(new PaymentDTO("CZK", new BigDecimal("0.1")));
+		assertEquals(2, bank.retrieveBalances().size());
 		int checked = 0;
 		for (BalanceDTO balanceDTO: bank.retrieveBalances()) {
 			switch (balanceDTO.getCurrencyCode()) {
 				case "USD":
 					checked++;
-					assertEquals(balanceDTO.getBalance(), 110);
+					assertEquals(0, balanceDTO.getBalance().compareTo(BigDecimal.valueOf(110)));
 					break;
 				case "CZK":
 					checked++;
-					assertEquals(balanceDTO.getBalance(), 1);
+					assertEquals(0, balanceDTO.getBalance().compareTo(new BigDecimal("1.1")));
 					break;
 				default:
 					assertEquals(true,false);
 
 			}
 		}
-		assertEquals(checked, 2);
+		assertEquals(2, checked);
 	}
 
 	@Test
