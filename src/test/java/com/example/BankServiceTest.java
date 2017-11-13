@@ -60,5 +60,9 @@ public class BankServiceTest {
 		CurrencyDTO czkCurrency = null;
 		assertNotNull(czkCurrency = bank.getCurrency("CZK"));
 		assertTrue(czkCurrency.getRateToUSD().compareTo(new BigDecimal("2.0")) == 0);
+
+		bank.updateCurrency("CZK", new BigDecimal("1.0"));
+		assertNotNull(czkCurrency = bank.getCurrency("CZK"));
+		assertTrue(czkCurrency.getRateToUSD().compareTo(new BigDecimal("1.0")) == 0);
 	}
 }
