@@ -4,7 +4,8 @@ Simple application that tracks payments
 
 ## Building and running
 
-This project uses Java 8 and Maven (works with 3.5.2, but should work with 3.x).
+This project uses Java 8 and Maven (works with 3.5.2, but should work with 3.x). Developed and tested on linux.
+
 To build:
 ```
     mvn package

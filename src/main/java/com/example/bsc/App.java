@@ -13,11 +13,25 @@ import java.util.concurrent.*;
 
 /**
  * BSC Homework Application
+ *
+ * all static properties can be overriden by cli arguments, see --help, or parseCli()
  */
 public class App {
+	/**
+	 * interval between balance dumps
+	 */
 	static int outputDelay = 60;
+	/**
+	 * path to file with payments to import, if null nothing is imported
+	 */
 	static String paymentsFile = null;
+	/**
+	 * path to file with currency rates to import, if null nothing is imported
+	 */
 	static String currenciesFile = null;
+	/**
+	 * verbose output mode
+	 */
 	static boolean verbose = false;
 
 	public static void main(String[] args) {
